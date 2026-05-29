@@ -1,24 +1,18 @@
 @extends('layouts.app')
 
 @section('css')
-{{-- 一般ユーザー用と同じCSSファイルを使い回す --}}
 <link rel="stylesheet" href="{{ asset('css/request.css') }}">
 @endsection
 
 @section('content')
 <div class="request-container request-container--admin">
-    {{-- タイトル --}}
     <div class="request-header">
         <h2 class="request-title">申請一覧</h2>
     </div>
-
-    {{-- タブエリア（管理者用も見た目は同じ） --}}
     <div class="request-tabs">
         <a href="{{ route('admin.request.list', ['tab' => 'waiting']) }}" class="request-tab {{ $tab === 'waiting' ? 'request-tab--active' : '' }}">承認待ち</a>
         <a href="{{ route('admin.request.list', ['tab' => 'approved']) }}" class="request-tab {{ $tab === 'approved' ? 'request-tab--active' : '' }}">承認済み</a>
     </div>
-
-    {{-- テーブルエリア --}}
     <div class="request-table-wrapper">
         <table class="request-table">
             <thead>

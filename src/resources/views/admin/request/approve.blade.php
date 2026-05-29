@@ -7,20 +7,14 @@
 @section('content')
 <div class="attendance-detail__content">
     <h2 class="attendance-detail__title">勤怠詳細</h2>
-
     @php
         $isApprovalMode = $isApprovalMode ?? false;
-    
-        // $req が存在すればそれを使う、なければ $attendance を使う
-        // これにより "Attempt to read property ... on null" が解消されます
         $start = ($req && $req->start_time) ? $req->start_time : $attendance->start_time;
         $end = ($req && $req->end_time) ? $req->end_time : $attendance->end_time;
         $remarks = ($req && $req->remarks) ? $req->remarks : $attendance->remarks;
     @endphp
-        
-    <form action="{{ $isApprovalMode ? route('admin.attendance.approve', $req->id) : '#' }}" method="post">
+    <form action="{{ $isApprovalMode ? route('admin.attendance.approve', $req->id) : '' }}" method="post">
         @csrf
-    
         <div class="attendance-detail__card">
             <div class="detail-table">
                 <div class="detail-table__row">
@@ -37,8 +31,8 @@
                 <div class="detail-table__row">
                     <div class="detail-table__header">出勤・退勤</div>
                     <div class="detail-table__item">
-                        {{ mb_convert_kana(\Carbon\Carbon::parse($start)->format('H:i'), 'A') }} 
-                        <span class="time-separator-wide">～</span> 
+                        {{ mb_convert_kana(\Carbon\Carbon::parse($start)->format('H:i'), 'A') }}
+                        <span class="time-separator-wide">～</span>
                         {{ mb_convert_kana(\Carbon\Carbon::parse($end)->format('H:i'), 'A') }}
                     </div>
                 </div>
@@ -68,9 +62,7 @@
                 </div>
             </div>
         </div>
-
         <div class="form__button-area">
-            {{-- ボタンの制御は既存のまま --}}
             @if($isApprovalMode)
                 @if($req->status == 0)
                     <button class="button-submit-large" type="submit">承認</button>

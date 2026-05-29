@@ -3,19 +3,15 @@
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 80px);
-    /* ヘッダーの高さを除いた全画面 */
     background-color: #ffffff;
-    /* Figmaに合わせて背景は真っ白に */
     font-family: "sans-serif";
 }
-
 .verify__inner {
     text-align: center;
     width: 100%;
     max-width: 600px;
     padding: 20px;
 }
-
 .verify__text {
     font-size: 16px;
     font-weight: bold;
@@ -23,16 +19,12 @@
     line-height: 1.8;
     margin-bottom: 40px;
 }
-
 .verify__button {
     display: inline-block;
     padding: 12px 64px;
-    /* Figmaの横長で安定感のあるボタン比率に調整 */
     background-color: #d9d9d9;
-    /* Figmaに合わせた少し明るめのグレー */
     border: 1px solid #000000;
     border-radius: 6px;
-    /* 柔らかな角丸 */
     color: #000000;
     text-decoration: none;
     font-size: 16px;
@@ -42,36 +34,27 @@
     transition: background-color 0.2s ease;
     margin-bottom: 30px;
 }
-
 .verify__button:hover {
     background-color: #c0c0c0;
-    /* ホバー時に少し暗くして押しやすさを向上 */
 }
-
 .verify__resend-form {
     display: block;
 }
-
 .verify__resend-button {
     background: none;
     border: none;
     color: #3b82f6;
-    /* 綺麗なリンクブルー */
     text-decoration: none;
-    /* リンクであることを強調する下線 */
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s ease;
 }
-
 .verify__resend-button:hover {
     color: #1d4ed8;
 }
-
 .verify__status-message {
     color: #10b981;
-    /* 成功時のエメラルドグリーン */
     font-size: 14px;
     margin-top: 15px;
     font-weight: bold;

@@ -19,9 +19,9 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => \Illuminate\Support\Facades\Hash::make('password123'), // パスワードを指定
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
             'remember_token' => \Illuminate\Support\Str::random(10),
-            'role' => 1, // ★ここを追加！一般ユーザーに固定
+            'role' => 1,
         ];
     }
     /**

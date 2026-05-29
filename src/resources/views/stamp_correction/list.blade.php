@@ -9,15 +9,10 @@
     <div class="request-header">
         <h2 class="request-title">申請一覧</h2>
     </div>
-
-    {{-- タブ切り替え --}}
     <div class="request-tabs">
-        <a href="{{ route('stamp_correction.index', ['tab' => 'waiting']) }}" 
-           class="request-tab {{ $tab === 'waiting' ? 'request-tab--active' : '' }}">承認待ち</a>
-        <a href="{{ route('stamp_correction.index', ['tab' => 'approved']) }}" 
-           class="request-tab {{ $tab === 'approved' ? 'request-tab--active' : '' }}">承認済み</a>
+        <a href="{{ route('stamp_correction.index', ['tab' => 'waiting']) }}" class="request-tab {{ $tab === 'waiting' ? 'request-tab--active' : '' }}">承認待ち</a>
+        <a href="{{ route('stamp_correction.index', ['tab' => 'approved']) }}" class="request-tab {{ $tab === 'approved' ? 'request-tab--active' : '' }}">承認済み</a>
     </div>
-
     <div class="request-table-wrapper">
         <table class="request-table">
             <thead>

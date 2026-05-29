@@ -1,14 +1,11 @@
-/* 1. ベース設定（そのまま） */
 body {
     background-color: #f7f7f7;
 }
-
 .attendance-detail__content {
     max-width: 850px;
     margin: 0 auto;
     padding: 40px 20px;
 }
-
 .attendance-detail__title {
     font-size: 26px;
     font-weight: bold;
@@ -16,119 +13,74 @@ body {
     border-left: 6px solid #000;
     padding-left: 15px;
 }
-
 .attendance-detail__card {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
     padding: 20px 0;
 }
-
-/* padding調整 */
-
-/* --- ここから修正部分 --- */
-
-/* テーブル全体をFlexコンテナに */
 .detail-table {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-
-/* 各行のレイアウト */
 .detail-table__row {
     display: flex;
     align-items: center;
-    /* 垂直方向中央揃え */
     border-bottom: 2px solid #f7f7f7;
     padding: 25px 0;
-    /* 上下の間隔 */
 }
-
-/* 最後の行のボーダーを消す（もし必要なら） */
 .detail-table__row:last-child {
     border-bottom: none;
 }
-
-/* 見出し部分（thの役割） */
 .detail-table__header {
     width: 200px;
-    /* ここで幅を固定して左揃えを維持 */
     padding-left: 60px;
-    /* 左側の余白 */
     color: #808080;
     font-weight: bold;
     font-size: 15px;
     letter-spacing: 0.1em;
 }
-
-/* 値部分（tdの役割） */
 .detail-table__item {
     flex: 1;
-    /* 残りの幅をすべて使う */
     padding-left: 100px;
-    /* 見出しとの間隔を広めに取る */
     color: #000;
     font-weight: bold;
     font-size: 15px;
     letter-spacing: 0.1em;
 }
-
-/* --- ここまで修正部分 --- */
-
-/* 8. ボタンエリア（そのまま） */
 .form__button-area {
     margin-top: 40px;
     display: flex;
     justify-content: flex-end;
 }
-
-/* ボタンの共通設定 */
 .button-submit-large,
 .button-approved {
     width: 110px;
-    /* ここで横幅を固定 */
     height: 40px;
-    /* ここで高さを固定 */
     display: flex;
-    /* Flexboxで中央揃え */
     justify-content: center;
-    /* 横方向中央 */
     align-items: center;
-    /* 縦方向中央 */
     border: none;
     border-radius: 4px;
     font-weight: bold;
     font-size: 16px;
-    /* 文字の大きさを統一 */
     cursor: pointer;
     margin: 0;
-    /* 余計なマージンをリセット */
     letter-spacing: 0.2em;
 }
-
-/* 承認ボタン（アクティブ） */
 .button-submit-large {
     background-color: #000;
     color: #fff;
 }
-
-/* 承認済みボタン（非アクティブ） */
 .button-approved {
     background-color: #696969;
-    /* 薄いグレー */
     color: #fff;
     cursor: not-allowed;
-    /* マウスカーソルを禁止マークに */
 }
-
-/* 年と月日の間の間隔 */
 .date-gap {
     margin-left: 180px;
-    /* ここで調整 */
 }
-
-/* 時間と時間の間の間隔（「～」の余白） */
 .time-separator-wide {
     padding: 0 80px;
     /* ここで調整 */

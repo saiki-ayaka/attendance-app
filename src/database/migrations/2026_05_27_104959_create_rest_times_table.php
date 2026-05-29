@@ -15,7 +15,6 @@ class CreateRestTimesTable extends Migration
     {
         Schema::create('rest_times', function (Blueprint $table) {
             $table->id();
-            // どの日の勤怠に対する休憩か
             $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();

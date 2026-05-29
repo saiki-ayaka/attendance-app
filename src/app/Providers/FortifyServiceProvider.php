@@ -24,9 +24,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-
         Fortify::verifyEmailView(function () { return view('auth.verify-email'); });
-
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -38,10 +36,8 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
-        // 認証ロジックの統合
         Fortify::authenticateUsing(function ($request) {
             $user = \App\Models\User::where('email', $request->email)->first();
-
             if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
                 if ($request->is('admin/*')) {
                     return $user->role === 2 ? $user : null;
@@ -68,7 +64,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        // ★2. ここに追加（bootメソッド内の一番下でOK）
         $this->app->singleton(
             \Laravel\Fortify\Contracts\LogoutResponse::class,
             LogoutResponse::class

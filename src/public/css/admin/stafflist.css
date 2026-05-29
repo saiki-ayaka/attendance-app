@@ -1,11 +1,7 @@
-/* --- 管理者用 スタッフ一覧 --- */
-
 body {
     background-color: #f7f7f7;
     margin: 0;
 }
-
-/* 1. 画面全体のレイアウト：他画面と960pxで統一 */
 .staff-page-wrapper {
     min-height: calc(100vh - 80px);
     background-color: #f7f7f7;
@@ -13,8 +9,6 @@ body {
     box-sizing: border-box;
     font-family: sans-serif;
 }
-
-/* 2. タイトルエリア：左棒4px、24pxフォントで統一 */
 .staff-title {
     max-width: 960px;
     margin: 0 auto 25px auto;
@@ -25,8 +19,6 @@ body {
     border-left: 4px solid #000;
     line-height: 1.2;
 }
-
-/* 3. 白い角丸カード：他画面と幅を統一 */
 .staff-table-card {
     background-color: #fff;
     border-radius: 8px;
@@ -36,59 +28,37 @@ body {
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
-/* 4. テーブルの実装：60%から100%へ広げ、余白で美しく見せる */
 .staff-table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
-    /* 💡 中央寄せを維持 */
     table-layout: fixed;
 }
-
-/* ヘッダー */
 .staff-table th {
     padding: 16px 10px;
-    /* 👈 勤怠一覧と完全に統一 */
     font-size: 14px;
     color: #808080;
     font-weight: bold;
     border-bottom: 3px solid #e5e7eb;
-    /* 統一された太い線 */
 }
-
-/* データセル */
 .staff-table td {
     padding: 15px 10px;
-    /* 👈 勤怠一覧と完全に統一 */
     font-size: 15px;
     color: #808080;
     font-weight: bold;
     border-bottom: 2px solid #f3f4f6;
-    /* 統一された薄い線 */
 }
-
-/* 💡 ここが最大のポイント：
-   一番左の列（名前）と一番右の列（月次勤怠）に大きな余白を入れて、
-   文字を中央にギュッと押し戻す */
 .staff-table th:first-child,
 .staff-table td:first-child {
     padding-left: 200px;
-    /* 👈 数字を大きくするほど、左から中央に寄ります */
 }
-
 .staff-table th:last-child,
 .staff-table td:last-child {
     padding-right: 200px;
-    /* 👈 数字を大きくするほど、右から中央に寄ります */
 }
-
-/* 最後の行の線は消す（お好みで！） */
 .staff-table tbody tr:last-child td {
     border-bottom: none;
 }
-
-/* 5. 詳細リンク */
 .detail-link {
     font-size: 14px;
     font-weight: bold;
@@ -96,41 +66,28 @@ body {
     text-decoration: none;
     transition: opacity 0.2s;
 }
-
 .detail-link:hover {
     opacity: 0.6;
     text-decoration: none;
-    /* 下線を消してモダンに */
 }
-
-/* メールアドレスの列に適用 */
 .staff-table td:nth-child(2) {
-    /* 💡 文字の間隔を少し広げる（数字はお好みで調整してください） */
     letter-spacing: 0.1em;
-    /* 💡 もしフォントが少し太く感じる場合は、少し細くするとよりFigmaに近づきます */
     font-weight: 700;
-    /* 💡 少しだけ文字サイズを小さくするのも、間隔を広く見せるコツです */
     font-size: 14px;
 }
-
-/* ページネーションのラッパー */
 .pagination-wrapper {
     margin-top: 30px;
     display: flex;
     justify-content: center;
 }
-
-/* ページネーションの各ボタン */
 .pagination {
     display: flex;
     list-style: none;
     padding: 0;
 }
-
 .pagination li {
     margin: 0 5px;
 }
-
 .pagination li a,
 .pagination li span {
     display: block;
@@ -140,26 +97,19 @@ body {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    /* 角を丸く */
     transition: all 0.3s;
 }
-
-/* ホバー時のデザイン */
 .pagination li a:hover {
     background-color: #808080;
     /* お好みのテーマカラー */
     color: #fff;
     border-color: #808080;
 }
-
-/* 現在のページ */
 .pagination li.active span {
     background-color: #808080;
     color: #fff;
     border-color: #808080;
 }
-
-/* 無効なボタン（前へ・次へなど） */
 .pagination li.disabled span {
     color: #ccc;
     cursor: not-allowed;

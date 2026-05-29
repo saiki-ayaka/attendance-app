@@ -1,19 +1,14 @@
-/* 画面全体：背景をグレーにし、中央にコンテンツを配置 */
 .attendance-list__content {
     min-height: calc(100vh - 80px);
     background-color: #f7f7f7;
-    /* Figmaに合わせた薄グレー */
     padding: 60px 40px;
     box-sizing: border-box;
     font-family: "sans-serif";
 }
-
-/* タイトルエリア：「黒い縦棒」付き */
 .attendance-list__header {
     max-width: 960px;
     margin: 0 auto 30px auto;
 }
-
 .attendance-list__title {
     font-size: 24px;
     font-weight: bold;
@@ -21,11 +16,8 @@
     margin: 0;
     padding-left: 12px;
     border-left: 4px solid #000000;
-    /* 左側の黒い縦棒 */
     line-height: 1.2;
 }
-
-/* 日付選択ナビ（中央に浮かぶ白い角丸ブロック） */
 .date-nav {
     display: flex;
     justify-content: space-between;
@@ -38,43 +30,30 @@
     margin: 0 auto 40px auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
 .date-nav__link {
     font-size: 14px;
     color: #808080;
-    /* 薄いグレー文字 */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s ease;
 }
-
 .date-nav__link:hover {
     color: #4b5563;
 }
-
 .date-nav__current {
     display: flex;
     align-items: center;
     gap: 8px;
-    /* アイコンとテキストの間隔 */
     font-size: 18px;
     font-weight: bold;
     color: #000000;
 }
-
-/* カレンダーアイコンのスタイル（画像用に調整） */
 .date-nav__icon {
     width: 20px;
-    /* アイコンの幅（Figmaに合わせて適宜調整してください） */
     height: 20px;
-    /* アイコンの高さ */
     object-fit: contain;
-    /* 画像が歪まないように調整 */
     vertical-align: middle;
-    /* 文字と高さのベースラインを合わせる */
 }
-
-/* テーブル全体のラッパー */
 .attendance-table__wrap {
     background-color: #ffffff;
     border-radius: 8px;
@@ -84,70 +63,48 @@
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
-/* テーブルスタイル：外枠を消してスッキリ */
 .attendance-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
-
 .attendance-table__header {
     font-size: 14px;
     color: #808080;
-    /* ヘッダーは少しグレーに */
     font-weight: bold;
     padding: 16px 24px;
     border-bottom: 3px solid #e5e7eb;
 }
-
-/* テーブルセルの余白と線 */
 .attendance-table__item {
     font-size: 15px;
     color: #808080;
     font-weight: bold;
     padding: 15px 24px;
     border-bottom: 2px solid #f3f4f6;
-    /* 薄い横線 */
 }
-
 .attendance-table__header,
 .attendance-table__item {
     text-align: center;
     padding: 15px 10px;
-    /* 余白を少し調整して詰めすぎを防ぐ */
 }
-
-/* 日付列（1番目の列）のスタイル調整 */
 .attendance-table__item:first-child {
     text-align: left;
     padding-left: 60px;
     padding-right: 40px;
     /* ここで余白を広げる */
     white-space: nowrap;
-    /* これで二段改行を防止 */
 }
-
-/* ヘッダーも同様に調整 */
 .attendance-table__header:first-child {
     padding-left: 60px;
     padding-right: 40px;
     white-space: nowrap;
 }
-
-/* 3. 日付列以外のヘッダーを微調整（必要であれば） */
-/* 必要に応じて日付以外のヘッダーを左にずらす設定を解除 */
 .attendance-table__header:first-child {
     padding-left: 35px;
 }
-
-/* 曜日に土日があれば色分けする用の調整（お好みで！） */
 .attendance-table__row:hover {
     background-color: #fcfcfc;
-    /* 軽くホバー時に色を変える */
 }
-
-/* 詳細リンク：Figmaに合わせてシンプルなテキストスタイルに */
 .detail-link {
     font-size: 14px;
     font-weight: bold;
@@ -155,60 +112,6 @@
     text-decoration: none;
     transition: opacity 0.2s ease;
 }
-
 .detail-link:hover {
     opacity: 0.6;
-}
-
-/* ページネーションのラッパー */
-.pagination-wrapper {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-/* ページネーションの各ボタン */
-.pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-}
-
-.pagination li {
-    margin: 0 5px;
-}
-
-.pagination li a,
-.pagination li span {
-    display: block;
-    padding: 8px 16px;
-    color: #333;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    /* 角を丸く */
-    transition: all 0.3s;
-}
-
-/* ホバー時のデザイン */
-.pagination li a:hover {
-    background-color: #8b5cf6;
-    /* お好みのテーマカラー */
-    color: #fff;
-    border-color: #8b5cf6;
-}
-
-/* 現在のページ */
-.pagination li.active span {
-    background-color: #8b5cf6;
-    color: #fff;
-    border-color: #8b5cf6;
-}
-
-/* 無効なボタン（前へ・次へなど） */
-.pagination li.disabled span {
-    color: #ccc;
-    cursor: not-allowed;
-    background-color: #f9f9f9;
 }

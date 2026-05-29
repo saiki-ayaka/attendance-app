@@ -85,9 +85,9 @@ php artisan migrate:fresh --seed
 
 ### アクセスURL
 ローカルサーバー起動後、ブラウザで以下にアクセスしてください。
-- トップ画面: http://localhost
-- ユーザー会員登録: http://localhost/register
-- ログイン画面: http://localhost/login
+- 一般ユーザーログイン画面: http://localhost/login
+- 一般ユーザー会員登録: http://localhost/register
+- 管理者ログイン画面: http://localhost/admin/login
 
 ### テスト用アカウント
 動作確認の際は、以下の登録済みアカウントをご利用ください。

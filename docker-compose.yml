@@ -48,5 +48,5 @@ services:
     platform: linux/x86_64
     container_name: attendance-app-mailhog
     ports:
-      - "1025:1025" # SMTP (Laravelから送信されたメールをここでキャッチ)
-      - "8025:8025" # WEB UI (ブラウザで受信箱を見るためのポート)
+      - "1025:1025"
+      - "8025:8025"

@@ -17,10 +17,10 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date');
-            $table->tinyInteger('status')->default(0); // ← これを追加！(仕様書通り)
+            $table->tinyInteger('status')->default(0);
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
-            $table->string('remarks')->nullable();    // 仕様書にあるので追加
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

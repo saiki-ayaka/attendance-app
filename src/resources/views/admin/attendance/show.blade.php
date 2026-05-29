@@ -7,7 +7,6 @@
 @section('content')
 <div class="attendance-detail__content">
     <h2 class="attendance-detail__title">勤怠詳細</h2>
-
     @if($attendance->id)
         <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="post" novalidate>
             @method('PATCH')
@@ -15,10 +14,8 @@
             <form action="{{ route('admin.attendance.store') }}" method="post" novalidate>
     @endif
         @csrf
-        {{-- dateやuser_idの隠しフィールドは必須 --}}
         <input type="hidden" name="date" value="{{ $attendance->date }}">
         <input type="hidden" name="user_id" value="{{ $attendance->user_id }}">
-
         <div class="attendance-detail__card">
             <table class="detail-table">
                 <tr class="detail-table__row">
@@ -75,7 +72,6 @@
                 <tr class="detail-table__row">
                     <th class="detail-table__header">備考</th>
                     <td class="detail-table__item">
-                        {{-- name="remarks" を name="reason" に変更 --}}
                         <textarea class="input-textarea-large" name="remarks" required>{{ old('remarks', $attendance->stampCorrectionRequest->remarks ?? $attendance->remarks) }}</textarea>
                         @error('remarks')
                             <div class="error-msg">{{ $message }}</div>
@@ -84,13 +80,10 @@
                 </tr>
             </table>
         </div>
-
-        {{-- 要件FN038: 承認待ち等のチェック --}}
         @if($attendance->id && $attendance->status === 1)
             <div class="error-msg">*承認待ちのため修正はできません。</div>
         @else
             <div class="form__button-area">
-            {{-- ここを固定で「修正」にする --}}
                 <button class="button-submit-large" type="submit">修正</button>
             </div>
         @endif

@@ -33,6 +33,5 @@ class AppServiceProvider extends ServiceProvider
         App::setLocale('ja');
 
         Paginator::defaultView('pagination::bootstrap-4');
-        //Paginator::useBootstrapFour();
     }
 }

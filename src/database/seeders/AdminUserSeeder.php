@@ -13,9 +13,9 @@ class AdminUserSeeder extends Seeder
         User::create([
             'name' => '管理者太郎',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // パスワードは任意のものにしてください
-            'role' => 2, // ここが重要！
-            'email_verified_at' => now(), // 認証済みにしておくと便利
+            'password' => Hash::make('password123'),
+            'role' => 2,
+            'email_verified_at' => now(),
         ]);
     }
 }
