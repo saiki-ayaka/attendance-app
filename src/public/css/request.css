@@ -1,0 +1,197 @@
+/* --- 一般ユーザー用 申請一覧全体の設定 --- */
+body {
+    background-color: #f7f7f7;
+    margin: 0;
+}
+
+/* ページ全体のレイアウト：管理者側と完全に統一 */
+.request-container {
+    min-height: calc(100vh - 80px);
+    background-color: #f7f7f7;
+    padding: 60px 40px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* タイトル「申請一覧」 */
+.request-header {
+    max-width: 960px;
+    margin: 0 auto 30px auto;
+}
+
+.request-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    padding-left: 12px;
+    border-left: 4px solid #000;
+    line-height: 1.2;
+}
+
+/* --- タブエリア（ボーダーなし・間隔広め） --- */
+.request-tabs {
+    display: flex;
+    gap: 120px;
+    /* 管理者側と同じ広めの間隔 */
+    padding: 0 0px;
+    max-width: 960px;
+    margin: 0 auto 20px auto;
+    border-bottom: 1px solid #000;
+}
+
+.request-tab {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: normal;
+    padding-bottom: 10px;
+}
+
+.request-tab--active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: none;
+    /* 選択ボーダーもなし */
+}
+
+/* --- 白い角丸カード --- */
+.request-table-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- テーブルの実装 --- */
+.request-table {
+    width: 100%;
+    /* 80%から100%へ広げる */
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* ヘッダー */
+.request-table th {
+    padding: 16px 24px;
+    font-size: 15px;
+    color: #808080;
+    font-weight: bold;
+    border-bottom: 3px solid #e5e7eb;
+}
+
+/* データセル */
+.request-table td {
+    padding: 15px 24px;
+    font-size: 15px;
+    color: #808080;
+    font-weight: bold;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+/* 詳細リンク */
+.detail-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.detail-link:hover {
+    opacity: 0.6;
+}
+
+/* 状態バッジ */
+.status-badge {
+    font-weight: bold;
+}
+
+/* ページネーション全体の配置 */
+.pagination-wrapper {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Bootstrapのページネーションをカスタム */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    border-radius: 4px;
+}
+
+.page-item {
+    margin: 0 4px;
+}
+
+/* 通常のリンクボタン */
+.page-link {
+    display: block;
+    padding: 8px 16px;
+    color: #4b4b4b;
+    /* 文字色 */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+/* ホバー（マウスを乗せた時） */
+.page-link:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+/* 現在表示中のページボタン */
+.page-item.active .page-link {
+    background-color: #4b4b4b;
+    /* 好きなアクセントカラーに変えてOK */
+    color: #fff;
+    border-color: #4b4b4b;
+}
+
+/* 無効（前へ・次へがない時）の状態 */
+.page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+    background-color: #fafafa;
+}
+
+/* ページネーションの全体調整 */
+.pagination-wrapper nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Tailwindテンプレートが出力するHTML構造に対応させる */
+.pagination-wrapper .flex {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 5px;
+}
+
+/* ボタンの見た目を整える */
+.pagination-wrapper a,
+.pagination-wrapper span {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 現在のページを強調 */
+.pagination-wrapper span[aria-current="page"] {
+    background-color: #808080;
+    /* テーマカラー */
+    color: #fff;
+    border-color: #8b5cf6;
+}

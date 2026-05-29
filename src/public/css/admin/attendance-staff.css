@@ -1,0 +1,148 @@
+/* --- スタッフ別勤怠一覧 --- */
+body {
+    background-color: #f7f7f7;
+    margin: 0;
+}
+
+/* 1. 画面全体のレイアウト：960px幅の基準に合わせる */
+.attendance-page-wrapper {
+    min-height: calc(100vh - 80px);
+    background-color: #f7f7f7;
+    padding: 60px 40px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* 2. タイトルエリア：左棒4pxで統一 */
+.attendance-title {
+    max-width: 960px;
+    margin: 0 auto 25px auto;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    padding-left: 12px;
+    border-left: 4px solid #000;
+    line-height: 1.2;
+}
+
+/* 3. 月選択セレクターカード（白い角丸ブロック） */
+.month-selector-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 24px;
+    max-width: 960px;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.month-nav {
+    text-decoration: none;
+    color: #808080;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.2s;
+    min-width: 80px;
+}
+
+.month-nav:hover {
+    color: #4b5563;
+}
+
+.current-month {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.calendar-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* 4. テーブル＆CSVボタンカード：960px幅で統一 */
+.attendance-table-card {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* CSVボタン用の下部余白 */
+}
+
+/* テーブルスタイル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.attendance-table th {
+    padding: 16px 24px;
+    border-bottom: 3px solid #e5e7eb;
+    /* 統一された太い線 */
+    color: #808080;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.attendance-table td {
+    padding: 15px 24px;
+    border-bottom: 2px solid #f3f4f6;
+    /* 統一された薄い線 */
+    font-size: 15px;
+    color: #808080;
+    font-weight: bold;
+}
+
+/* 詳細リンク */
+.detail-link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.detail-link:hover {
+    opacity: 0.6;
+}
+
+/* 5. CSV出力ボタンエリア：カード内の右側に配置 */
+.csv-export-area {
+    max-width: 960px;
+    margin: 20px auto 0 auto;
+    /* カードとの間に20pxの隙間 */
+    display: flex;
+    justify-content: flex-end;
+    /* これで右端に寄せます */
+}
+
+.csv-button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 6px;
+    font-size: 16px;
+    /* 少しサイズを調整してモダンに */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+
+.csv-button:hover {
+    background-color: #333;
+    text-decoration: none;
+}

@@ -1,0 +1,94 @@
+/* 1. 全体のコンテナ（中央寄せ） */
+.login-container {
+    margin: 100px auto;
+    width: 90%;
+    max-width: 500px;
+    /* お手本の幅感に調整 */
+    text-align: center;
+}
+
+/* 2. タイトル「ログイン」 */
+.login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* 3. フォーム全体のレイアウト */
+.login-form {
+    text-align: left;
+}
+
+/* 4. 各入力項目のグループ */
+.form-group {
+    margin-bottom: 25px;
+}
+
+/* 5. ラベル（メールアドレス / パスワード） */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* 6. 入力欄（input）のスタイル */
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    /* お手本のようなハッキリした黒い線 */
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    /* paddingを含めた横幅にする */
+    outline: none;
+}
+
+/* 入力欄にフォーカスした時の色（お好みで） */
+.form-group input:focus {
+    border-color: #555;
+}
+
+/* 7. ログインボタン */
+.login-button {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 40px;
+    border-radius: 4px;
+    transition: opacity 0.3s;
+}
+
+.login-button:hover {
+    opacity: 0.8;
+}
+
+/* 8. 会員登録はこちらリンク */
+.register-link {
+    margin-top: 25px;
+}
+
+.register-link a {
+    color: #0066cc;
+    /* 一般的なリンク色 */
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* 9. バリデーションエラーメッセージ */
+.error-msg {
+    color: #ff0000;
+    font-size: 13px;
+    margin-top: 5px;
+}

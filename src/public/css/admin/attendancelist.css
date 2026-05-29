@@ -1,0 +1,176 @@
+/* 1. 画面全体のレイアウト */
+.admin-attendance__content {
+    min-height: calc(100vh - 80px);
+    background-color: #f7f7f7;
+    /* 一般側と同じ薄グレー */
+    padding: 60px 40px;
+    /* ヘッダーからしっかり下げる */
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* 2. タイトルエリア（左側の黒い棒） */
+.admin-attendance__header {
+    max-width: 960px;
+    margin: 0 auto 30px auto;
+    border-left: 4px solid #000000;
+    /* 棒を4pxに（一般側と統一） */
+    padding-left: 12px;
+}
+
+.admin-attendance__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* 3. 日付選択ナビ（白い浮いたブロック） */
+.date-nav {
+    display: flex;
+    justify-content: space-between;
+    /* 両端に飛ばす */
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 24px;
+    max-width: 960px;
+    margin: 0 auto 40px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* 一般側と同じ薄い影 */
+}
+
+.date-nav__link {
+    font-size: 14px;
+    color: #808080;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+    min-width: 80px;
+}
+
+.date-nav__link:hover {
+    color: #4b5563;
+}
+
+.date-nav__current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* カレンダーアイコン */
+.calendar-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+/* 4. テーブル全体のラッパー（角丸と白背景） */
+.attendance-table__wrap {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 5. テーブルスタイル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.attendance-table__header {
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #808080;
+    font-weight: bold;
+    padding: 16px 24px;
+    border-bottom: 3px solid #e5e7eb;
+    /* 太めの線で区切る */
+}
+
+.attendance-table__item {
+    font-size: 15px;
+    color: #808080;
+    font-weight: bold;
+    padding: 15px 24px;
+    border-bottom: 2px solid #f3f4f6;
+    /* セル間の薄い線 */
+}
+
+/* 6. 詳細リンク */
+.detail-link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.detail-link:hover {
+    opacity: 0.6;
+}
+
+/* ページネーションのラッパー */
+.pagination-wrapper {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ページネーションの各ボタン */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a,
+.pagination li span {
+    display: block;
+    padding: 8px 16px;
+    color: #333;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    /* 角を丸く */
+    transition: all 0.3s;
+}
+
+/* ホバー時のデザイン */
+.pagination li a:hover {
+    background-color: #808080;
+    /* お好みのテーマカラー */
+    color: #fff;
+    border-color: #808080;
+}
+
+/* 現在のページ */
+.pagination li.active span {
+    background-color: #808080;
+    color: #fff;
+    border-color: #808080;
+}
+
+/* 無効なボタン（前へ・次へなど） */
+.pagination li.disabled span {
+    color: #ccc;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}

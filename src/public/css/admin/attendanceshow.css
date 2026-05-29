@@ -1,0 +1,216 @@
+/* 1. ベース設定（背景をグレーに） */
+body {
+    background-color: #f7f7f7;
+    margin: 0;
+    /* フォントを綺麗に */
+}
+
+/* 全体コンテナ */
+.attendance-detail__content {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px 20px;
+}
+
+/* 2. タイトル（左に太い黒棒） */
+.attendance-detail__title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #000;
+    border-left: 6px solid #000;
+    /* 棒を少し太く */
+    padding-left: 15px;
+}
+
+/* 3. カード部分（白ボックス） */
+.attendance-detail__card {
+    background-color: #fff;
+    padding: 10px 0px;
+    /* 内側の余白をたっぷり取る */
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* 角丸からはみ出さないように */
+}
+
+/* 4. テーブルスタイル */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /* 💡 これを入れると幅の指定が正確になります */
+}
+
+.detail-table__row {
+    border-bottom: 2px solid #f7f7f7;
+}
+
+/* 最後の行のボーダーは消すとお手本に近いです */
+.detail-table__row:last-child {
+    border-bottom: none;
+}
+
+.detail-table__header {
+    width: 280px;
+    /* 見出し幅を固定 */
+    text-align: left;
+    padding: 15px 0 15px 50px;
+    /* 左に50pxの余白 */
+    /* 上下の間隔を広げてゆったりさせる */
+    font-size: 15px;
+    color: #808080;
+    /* お手本の薄いグレー */
+    vertical-align: middle;
+    letter-spacing: 0.1em;
+}
+
+.detail-table__item {
+    padding: 15px 50px 15px 0;
+    /* 右余白25px */
+    vertical-align: middle;
+    width: auto;
+}
+
+/* 5. 名前・日付の強調（ここがお手本への近道） */
+.staff-name,
+.date-display {
+    padding: 30px;
+    font-size: 15px;
+    /* 大きく */
+    font-weight: bold;
+    color: #000;
+    letter-spacing: 0.1em;
+}
+
+.year-text {
+    display: inline-block;
+    margin-right: 165px;
+    /* 💡 ここでお好みの余白（15px〜25pxくらい）に調整 */
+}
+
+/* 6. 入力グループ */
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.time-separator {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    padding: 0 35px;
+    /* 💡 「〜」の左右に30pxずつの大きな余白を作る */
+}
+
+/* 入力欄（時間を大きく、枠を薄く） */
+.input-time-large {
+    width: 135px;
+    height: 35px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    resize: none;
+    box-sizing: border-box;
+    /* 枠線がはみ出さないように */
+    color: #000;
+    font-feature-settings: "palt";
+    letter-spacing: 0.4em;
+    /* これで文字間が広がって全角っぽくなります */
+    text-align: center;
+}
+
+.time-separator {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* 7. 備考欄（textarea） */
+.input-textarea-large {
+    width: 390px;
+    min-height: 140px;
+    /* 高さを出す */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: none;
+    box-sizing: border-box;
+    /* はみ出し防止 */
+    letter-spacing: 0.1em;
+}
+
+/* 8. ボタンエリア（右寄せ） */
+.form__button-area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 【ボタン共通】修正・承認・承認済みのベースサイズ */
+.button-submit-large,
+.button-approve,
+.button-approved {
+    padding: 16px 60px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    appearance: none;
+    /* ブラウザ標準スタイルを解除 */
+}
+
+/* 修正・承認ボタン（黒） */
+.button-submit-large,
+.button-approve {
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-submit-large:hover,
+.button-approve:hover {
+    background-color: #000;
+}
+
+/* 承認済みボタン（グレー） */
+.button-approved {
+    background-color: #696969;
+    /* グレー */
+    color: #fff;
+    /* 白文字 */
+    cursor: not-allowed;
+    /* 押せないマーク */
+}
+
+/* --- 警告・エラーメッセージ（そのまま） --- */
+.pending-warning-text,
+.approval-notice {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+    text-align: right;
+    /* 右寄せ */
+    font-weight: bold;
+    /* 太文字 */
+    letter-spacing: 0.2em;
+}
+
+.error-msg {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}

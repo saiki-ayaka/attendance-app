@@ -1,0 +1,63 @@
+/* ヘッダー全体を黒く、高さを固定 */
+.header {
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+/* ロゴのテキストスタイル */
+.header__logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    /* 少し文字間隔を広げるとロゴっぽくなります */
+}
+
+.header__logo-link {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.header__logo-link:hover {
+    opacity: 0.8;
+}
+
+/* ナビゲーション */
+.header__nav-list {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    /* メニュー同士の間隔 */
+    align-items: center;
+}
+
+.header__nav-link,
+.header__nav-button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+
+.header__nav-link:hover,
+.header__nav-button:hover {
+    opacity: 0.7;
+}
+
+/* ログアウトボタンだけ少し離すなどの調整が必要な場合はここで */

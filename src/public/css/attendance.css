@@ -1,0 +1,115 @@
+/* 画面全体の背景をグレーにし、縦中央揃えに */
+.attendance__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    /* ヘッダーの高さを引いた残り全体 */
+    background-color: #f7f7f7;
+    /* Figmaに合わせた背景の薄いグレー */
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* 1. ステータス表示（Figma風の丸座バッジデザインに！） */
+.attendance__status {
+    margin-bottom: 24px;
+}
+
+.status-label {
+    display: inline-block;
+    background-color: #d9d9d9;
+    /* バッジのグレー背景 */
+    color: #4f4f4f;
+    /* 濃いめのグレー文字 */
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 20px;
+    border-radius: 50px;
+    /* 綺麗な楕円形に */
+    letter-spacing: 0.05em;
+}
+
+/* 2. 日付・時刻パネル */
+.attendance__panel {
+    text-align: center;
+    margin-bottom: 60px;
+    /* ボタンやお疲れ様メッセージとの間の広い余白 */
+}
+
+/* 日付は大きく、太すぎず上品に */
+.attendance__date {
+    font-size: 32px;
+    color: #000;
+    margin: 0 0 16px 0;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* 時刻は超巨大で圧倒的な存在感に */
+.attendance__time {
+    font-size: 100px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    /* 文字間をほんの少し詰めてスタイリッシュに */
+}
+
+/* 3. ボタン・メッセージエリア */
+.attendance__button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    /* 複数ボタンがある場合の縦の隙間 */
+    width: 100%;
+    max-width: 400px;
+}
+
+/* お疲れ様でした メッセージ */
+.attendance__thanks {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    margin: 20px 0 0 0;
+    letter-spacing: 0.1em;
+    /* Figmaのように文字間隔を広げて上品に */
+    text-align: center;
+}
+
+/* 打刻ボタン（共通）の美しいスタイリング */
+.attendance__button-submit,
+.attendance__button-sub {
+    width: 280px;
+    padding: 16px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid #000;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 出勤・退勤などのメインボタン（白背景） */
+.attendance__button-submit {
+    background-color: #fff;
+    color: #000;
+}
+
+.attendance__button-submit:hover {
+    background-color: #f0f0f0;
+}
+
+/* 休憩などのサブボタン（Figma仕様の配色に合わせる場合、調整してください） */
+.attendance__button-sub {
+    background-color: #fff;
+    color: #000;
+}
+
+.attendance__button-sub:hover {
+    background-color: #f0f0f0;
+}
