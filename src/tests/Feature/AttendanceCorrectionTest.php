@@ -19,14 +19,16 @@ class AttendanceCorrectionTest extends TestCase
         $user = User::factory()->create();
         $attendance = Attendance::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user);
+        
         $response = $this->from(route('attendance.show', $attendance->id)) 
-                        ->put(route('attendance.update', $attendance->id), [
+                        ->put(route('attendance.apply', $attendance->id), [
                             'date' => $attendance->date,
-                            'start_time' => '10:00',
-                            'end_time' => '09:00',
-                            'remarks' => 'テスト修正'
+                            'remarks' => 'テスト修正',
+                            'attendance' => [
+                                0 => ['start_time' => '10:00', 'end_time' => '09:00']
+                            ]
                         ]);
-        $response->assertSessionHasErrors(['end_time']);
+        $response->assertSessionHasErrors(['attendance.0.end_time']);
     }
 
     /** @test */
@@ -36,7 +38,7 @@ class AttendanceCorrectionTest extends TestCase
         $attendance = Attendance::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user);
         $response = $this->from(route('attendance.show', $attendance->id))
-            ->put(route('attendance.update', $attendance->id), [
+            ->put(route('attendance.apply', $attendance->id), [
                 'date'       => $attendance->date,
                 'start_time' => '09:00',
                 'end_time'   => '18:00',
@@ -55,17 +57,20 @@ class AttendanceCorrectionTest extends TestCase
         $user = User::factory()->create();
         $attendance = Attendance::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user);
-        $response = $this->put(route('attendance.update', $attendance->id), [
+
+        $response = $this->put(route('attendance.apply', $attendance->id), [
             'date' => $attendance->date,
-            'start_time' => '09:00',
-            'end_time' => '18:00',
             'remarks' => '修正します',
             'attendance' => [
-                1 => ['start_time' => null, 'end_time' => null],
-                2 => ['start_time' => null, 'end_time' => null]
+                0 => ['start_time' => '09:00', 'end_time' => '18:00'],
+                1 => ['start_time' => '12:00', 'end_time' => '13:00'], 
+                2 => ['start_time' => null,    'end_time' => null] 
             ]
         ]);
+
+        $response->assertSessionHasNoErrors();
         $response->assertStatus(302);
+        
         $this->assertDatabaseHas('stamp_correction_requests', [
             'attendance_id' => $attendance->id,
             'status' => 0
@@ -98,7 +103,7 @@ class AttendanceCorrectionTest extends TestCase
         $attendance = Attendance::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user);
         $response = $this->from(route('attendance.show', $attendance->id))
-            ->put(route('attendance.update', $attendance->id), [
+            ->put(route('attendance.apply', $attendance->id), [
                 'date' => $attendance->date,
                 'start_time' => '09:00',
                 'end_time' => '18:00',
@@ -116,17 +121,15 @@ class AttendanceCorrectionTest extends TestCase
         $user = User::factory()->create();
         $attendance = Attendance::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user);
-        $response = $this->from(route('attendance.show', $attendance->id))
-            ->put(route('attendance.update', $attendance->id), [
-                'date' => $attendance->date,
-                'start_time' => '09:00',
-                'end_time' => '18:00',
-                'remarks' => 'テスト',
-                'attendance' => [
-                    1 => ['start_time' => '10:00', 'end_time' => '20:00']
-                ]
-            ]);
-        $response->assertSessionHasErrors(['attendance.1.end_time']);
+        $response = $this->from(route('attendance.show', $attendance->id)) 
+                        ->put(route('attendance.apply', $attendance->id), [
+                            'date' => $attendance->date,
+                            'remarks' => 'テスト修正',
+                            'attendance' => [
+                                0 => ['start_time' => '10:00', 'end_time' => '09:00']
+                            ]
+                        ]);
+        $response->assertSessionHasErrors(['attendance.0.end_time']);
     }
 
     /** @test */

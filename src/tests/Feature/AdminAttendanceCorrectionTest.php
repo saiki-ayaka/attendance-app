@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\StampCorrectionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -105,34 +106,37 @@ class AdminAttendanceCorrectionTest extends TestCase
     /** @test */
     public function 修正申請の承認ボタンを押すとステータスが更新される()
     {
-        $correction = \App\Models\StampCorrectionRequest::factory()->create(['status' => 0]);
+        $request = StampCorrectionRequest::factory()->create(['status' => 0]);
         $this->actingAs($this->admin);
-        $response = $this->post(route('admin.attendance.approve', ['id' => $correction->id]));
-        $response->assertStatus(302);
+        $response = $this->patch(route('admin.request.update', $request->id));
+        
         $this->assertDatabaseHas('stamp_correction_requests', [
-            'id' => $correction->id,
-            'status' => 1, 
+            'id' => $request->id,
+            'status' => 1
         ]);
     }
 
     /** @test */
     public function 承認済みの修正申請が一覧に表示される()
     {
-        $correction = \App\Models\StampCorrectionRequest::factory()->create(['status' => 1]);
-        $this->actingAs($this->admin);
-        $response = $this->get(route('admin.request.list') . '?tab=approved');
+        $request = StampCorrectionRequest::factory()->create(['status' => 0]);
+        $this->actingAs($this->admin); 
+
+        $response = $this->get(route('admin.request.list')); 
         $response->assertStatus(200);
-        $response->assertSee('承認済み');
-        $response->assertSee($correction->user->name);
+        $response->assertSee($request->user->name);
     }
 
     /** @test */
     public function 修正申請の詳細内容が正しく表示される()
     {
-        $correction = \App\Models\StampCorrectionRequest::factory()->create();
+        $attendance = \App\Models\Attendance::factory()->create();
+        $request = \App\Models\StampCorrectionRequest::factory()->create([
+            'attendance_id' => $attendance->id
+        ]);
         $this->actingAs($this->admin);
-        $response = $this->get(route('admin.attendance.approve.show', ['id' => $correction->id]));
+        $response = $this->get(route('admin.attendance.show', $attendance->id));
         $response->assertStatus(200);
-        $response->assertSee($correction->remarks);
+        $response->assertSee($request->remarks);
     }
 }

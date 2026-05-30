@@ -38,7 +38,7 @@
                     <td>{{ Str::limit($request_item->remarks, 20) }}</td>
                     <td>{{ $request_item->created_at->format('Y/m/d') }}</td>
                     <td>
-                            <a class="detail-link" href="{{ route('admin.attendance.approve.show', ['id' => $request_item->id]) }}">詳細</a>
+                            <a class="detail-link" href="{{ route('admin.request.approve', ['id' => $request_item->id]) }}">詳細</a>
                     </td>
                 </tr>
                 @endforeach
