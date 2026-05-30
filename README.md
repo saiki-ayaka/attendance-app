@@ -1,4 +1,4 @@
-# 勤怠管理システム（Attendance Management System）
+# 勤怠管理システム
 
 ## 1. プロジェクト概要
 * **どんなアプリか？**：要件定義に基づいた、ユーザーの勤怠と管理を行うアプリ
@@ -24,7 +24,7 @@
   - VS Code(エディタ)
 
 ### 起動手順
-## 環境構築
+#### 環境構築
 1. リポジトリをクローンし、ディレクトリに移動します。
 ```bash
 git clone https://github.com/saiki-ayaka/attendance-app.git
@@ -89,10 +89,18 @@ php artisan migrate:fresh --seed
 - 一般ユーザー会員登録: http://localhost/register
 - 管理者ログイン画面: http://localhost/admin/login
 
+> ログイン後は、各権限に応じた勤怠打刻や申請管理画面へ自動的に遷移します。
+
 ### テスト用アカウント
 動作確認の際は、以下の登録済みアカウントをご利用ください。
-- メールアドレス1: test@example.com / パスワード: password
-- メールアドレス2: test2@example.com / パスワード: password
+* **管理者アカウント**
+    * メールアドレス: `admin@example.com`
+    * パスワード: `password123`
+* **一般ユーザーアカウント**
+    * メールアドレス: `user@example.com`
+    * パスワード: `password123`
+
+> **補足:** 上記以外にも、DatabaseSeeder の実行により、ランダムなスタッフユーザーが **10名** 自動生成されます。
 
 ## 3. データベース設計
 データの整合性を保つため、以下の設計に基づいています。
@@ -100,93 +108,72 @@ php artisan migrate:fresh --seed
 ![ER図](./docs/database-design.png)
 ### テーブル仕様書
 
-#### usersテーブル (利用ユーザー)
+#### usersテーブル (ユーザー管理)
 | カラム名 | 型 | PK | UNIQUE | NOT NULL | 説明 |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | id | unsigned bigint | ○ | | ○ | ユーザーID |
 | name | varchar(255) | | | ○ | ユーザー名 |
 | email | varchar(255) | | ○ | ○ | メールアドレス |
 | password | varchar(255) | | | ○ | パスワード |
-| postcode | varchar(255) | | | | 郵便番号 |
-| address | varchar(255) | | | | 住所 |
-| building | varchar(255) | | | | 建物名 |
-| image_url | varchar(255) | | | | プロフィール画像パス |
+| role | tinyint | | | ○ | 権限(1:一般, 2:管理者) |
+| email_verified_at | timestamp | | | | メール認証日時 |
+| remember_token | varchar(100) | | | | ログイン保持トークン |
+| created_at | timestamp | | | ○ | 作成日時 |
+| updated_at | timestamp | | | ○ | 更新日時 |
 
-#### itemsテーブル (出品商品)
+#### attendancesテーブル (勤怠管理)
 | カラム名 | 型 | PK | NOT NULL | FK | 説明 |
-| :--- | :--- | :---: | :---: | :--- | :--- |
-| id | unsigned bigint | ○ | ○ | | 商品ID |
-| user_id | unsigned bigint | | ○ | users(id) | 出品者ID |
-| condition_id | unsigned bigint | | ○ | conditions(id) | 商品状態ID |
-| name | varchar(255) | | ○ | | 商品名 |
-| description | text | | ○ | | 商品説明 |
-| price | unsigned int | | ○ | | 販売価格 |
-| image_url | varchar(255) | | ○ | | 商品画像パス |
-| brand | varchar(255) | | | | ブランド名 |
-
-#### categoriesテーブル (カテゴリー名)
-| カラム名 | 型 | PK | NOT NULL | 説明 |
-| :--- | :--- | :---: | :---: | :--- |
-| id | unsigned bigint | ○ | ○ | カテゴリーID |
-| name | varchar(255) | | ○ | カテゴリー名 |
-
-#### category_itemテーブル (商品-カテゴリー中間テーブル)
-| カラム名 | 型 | PK | NOT NULL | FK | 説明 |
-| :--- | :--- | :---: | :---: | :--- | :--- |
-| item_id | unsigned bigint | ○ | ○ | items(id) | 商品ID |
-| category_id | unsigned bigint | ○ | ○ | categories(id) | カテゴリーID |
-
-#### conditionsテーブル (商品状態)
-| カラム名 | 型 | PK | NOT NULL | 説明 |
-| :--- | :--- | :---: | :---: | :--- |
-| id | unsigned bigint | ○ | ○ | 状態ID |
-| name | varchar(255) | | ○ | 状態名（良好、傷あり等） |
-
-#### ordersテーブル (注文情報)
-| カラム名 | 型 | PK | UNIQUE | NOT NULL | 説明 |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| id | unsigned bigint | ○ | | ○ | 注文ID |
-| user_id | varchar(255) | | | ○ | 購入者ID |
-| item_id | varchar(255) | | ○ | ○ | 商品ID |
-| payment_method | varchar(255) | | | ○ | 支払い方法 |
-| postcode | varchar(255) | | | ○ | 配送先郵便番号 |
-| address | varchar(255) | | | ○ | 配送先住所 |
-| building | varchar(255) | | | | 配送先建物名 |
-
-#### favoritesテーブル (お気に入り)
-| カラム名 | 型 | PK | NOT NULL | FK | 説明 |
-| :--- | :--- | :---: | :---: | :--- | :--- |
-| id | unsigned bigint | ○ | ○ | | ID |
+| id | unsigned bigint | ○ | ○ | | 勤怠ID |
 | user_id | unsigned bigint | | ○ | users(id) | ユーザーID |
-| item_id | unsigned bigint | | ○ | items(id) | 商品ID |
-| created_at | timestamp | | | | 作成日時 |
+| date | date | | ○ | | 勤務日 |
+| status | tinyint | | ○ | | 承認状況(0:承認待ち, 1:承認済) |
+| work_status | tinyint | | | | 勤務状態(0:勤外, 1:出勤, 2:休憩, 3:退勤) |
+| start_time | datetime | | | | 出勤時刻 |
+| end_time | datetime | | | | 退勤時刻 |
+| remarks | varchar(255) | | | | 備考 |
+| created_at | timestamp | | ○ | | 作成日時 |
+| updated_at | timestamp | | ○ | | 更新日時 |
+
+#### rest_timesテーブル (休憩管理)
+| カラム名 | 型 | PK | NOT NULL | FK | 説明 |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| id | unsigned bigint | ○ | ○ | | 休憩ID |
+| attendance_id | unsigned bigint | | ○ | attendances(id) | 勤怠ID |
+| start_time | datetime | | ○ | | 休憩開始時刻 |
+| end_time | datetime | | | | 休憩終了時刻 |
+| created_at | timestamp | | ○ | | 作成日時 |
+| updated_at | timestamp | | ○ | | 更新日時 |
+
+#### stamp_correction_requestsテーブル (修正申請管理)
+| カラム名 | 型 | PK | NOT NULL | FK | 説明 |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| id | unsigned bigint | ○ | ○ | | 申請ID |
+| attendance_id | unsigned bigint | | ○ | attendances(id) | 勤怠ID |
+| user_id | unsigned bigint | | ○ | users(id) | ユーザーID |
+| date | date | | ○ | | 対象日 |
+| status | tinyint | | ○ | | 承認状況(0:承認待ち, 1:承認済) |
+| start_time | datetime | | | | 修正後出勤時刻 |
+| end_time | datetime | | | | 修正後退勤時刻 |
+| rest_data | json | | ○ | | 修正後休憩データ |
+| remarks | varchar(255) | | | | 申請理由 |
+| created_at | timestamp | | ○ | | 作成日時 |
 | updated_at | timestamp | | | | 更新日時 |
 
-#### commentsテーブル (コメント)
-| カラム名 | 型 | PK | NOT NULL | FK | 説明 |
-| :--- | :--- | :---: | :---: | :--- | :--- |
-| id | unsigned bigint | ○ | ○ | | ID |
-| user_id | unsigned bigint | | ○ | users(id) | ユーザーID |
-| item_id | unsigned bigint | | ○ | items(id) | 商品ID |
-| comment | text | | ○ | | コメント内容 |
-
-
 ## 4. 主要機能一覧
-- ユーザー認証・認可: 登録、ログイン、メール認証、ログアウト機能
-- 商品一覧・詳細: 全商品表示、自分以外の出品物のみ表示（マイリスト）、詳細情報閲覧
-- 検索・絞り込み: 商品名でのキーワード検索機能
-- 商品出品: 画像アップロード、複数カテゴリ選択、状態選択、価格設定
-- お気に入り機能: 商品詳細からの登録・解除、マイページでの一覧表示
-- コメント機能: 出品者への質問や購入希望者との交流
-- 購入・決済機能: Stripe を利用したクレジットカード決済、配送先情報の入力
-- プロフィール管理: 住所、プロフィール画像の変更
-## 機能一覧
-- ユーザー認証（新規登録・ログイン・ログアウト）
-- 勤怠記録（出勤・退勤・休憩開始・休憩終了）
-- 勤怠一覧表示
-- 勤怠詳細表示
-- 修正申請機能
-- 管理者向け承認機能
 
-## データベース設計
-（ここに昨夜作成したER図の画像を貼り付けるか、mermaid記法で追記するとよりプロフェッショナルです！）
+*   **ユーザー認証・認可**
+    *   Laravel Fortify を活用した新規登録、ログイン（一般・管理者）、ログアウト機能
+*   **勤怠打刻**
+    *   日々の出勤、退勤、休憩開始、休憩終了の打刻機能
+*   **勤怠一覧・詳細表示**
+    *   月ごとの勤怠ログ一覧表示（日付、出勤・退勤時刻、休憩時間、合計勤務時間の集計）
+    *   特定の日の詳細勤怠データの閲覧
+*   **修正申請機能**
+    *   勤怠の打刻漏れや誤りに対する修正申請の提出
+    *   申請理由の入力および修正後データの送信
+*   **管理者向け機能**
+    *   全ユーザーの勤怠管理（一覧表示、詳細閲覧）
+    *   スタッフ一覧の管理
+    *   スタッフごとの過去の勤怠閲覧
+    *   修正申請に対する承認・修正処理
