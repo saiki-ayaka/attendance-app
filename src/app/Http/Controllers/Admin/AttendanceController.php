@@ -229,21 +229,28 @@ class AttendanceController extends Controller
     {
         $req = \App\Models\StampCorrectionRequest::findOrFail($id);
         $attendance = $req->attendance;
+        $date = $attendance->date;
 
-        \DB::transaction(function () use ($req, $attendance) {
-            $attendance->update([
-                'start_time' => $req->start_time,
-                'end_time'   => $req->end_time,
+            \DB::transaction(function () use ($req, $attendance, $date) {
+                $attendance->update([
+                'start_time' => strpos($req->start_time, ':') === 0 || strlen($req->start_time) < 11 
+                            ? $date . ' ' . $req->start_time . ':00' 
+                            : $req->start_time,
+                'end_time'   => strpos($req->end_time, ':') === 0 || strlen($req->end_time) < 11 
+                            ? $date . ' ' . $req->end_time . ':00' 
+                            : $req->end_time,
             ]);
+
             \App\Models\RestTime::where('attendance_id', $attendance->id)->delete();
             $restData = json_decode($req->rest_data, true);
+        
             if ($restData) {
                 foreach ($restData as $restItem) {
                     if (is_array($restItem) && !empty($restItem['start_time']) && !empty($restItem['end_time'])) {
                         \App\Models\RestTime::create([
                             'attendance_id' => $attendance->id,
-                            'start_time'    => $restItem['start_time'],
-                            'end_time'      => $restItem['end_time'],
+                            'start_time'    => $date . ' ' . $restItem['start_time'] . ':00',
+                            'end_time'      => $date . ' ' . $restItem['end_time'] . ':00',
                         ]);
                     }
                 }

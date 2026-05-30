@@ -13,8 +13,9 @@
         $end = ($req && $req->end_time) ? $req->end_time : $attendance->end_time;
         $remarks = ($req && $req->remarks) ? $req->remarks : $attendance->remarks;
     @endphp
-    <form action="{{ $isApprovalMode ? route('admin.attendance.approve', $req->id) : '' }}" method="post">
+    <form action="{{ $isApprovalMode ? route('admin.request.update', $req->id) : '' }}" method="post">
         @csrf
+        @method('PATCH')
         <div class="attendance-detail__card">
             <div class="detail-table">
                 <div class="detail-table__row">
