@@ -19,11 +19,13 @@ class AttendanceRequest extends FormRequest
     protected function prepareForValidation()
     {
         $data = $this->all();
+    
         if (isset($data['attendance'])) {
             foreach ($data['attendance'] as $index => &$times) {
                 foreach ($times as $key => &$value) {
-                    if ($value) {
-                        // 全角数字を半角に、全角コロンを半角コロンに変換
+                    if ($value === null || $value === '') {
+                        $value = null;
+                    } else {
                         $value = mb_convert_kana($value, 'n');
                         $value = str_replace('：', ':', $value);
                     }
@@ -41,13 +43,28 @@ class AttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'attendance.0.start_time' => 'required',
-            'attendance.0.end_time'   => ['required',  'after:attendance.0.start_time'],
-            'attendance.1.start_time' => ['nullable', 'after_or_equal:attendance.0.start_time'],
-            'attendance.1.end_time'   => ['nullable', 'before_or_equal:attendance.0.end_time', 'after:attendance.1.start_time'],
-            'attendance.2.start_time' => ['nullable', 'after_or_equal:attendance.1.end_time'],
-            'attendance.2.end_time'   => ['nullable', 'before_or_equal:attendance.0.end_time', 'after:attendance.2.start_time'],
-            'remarks'                 => ['required', 'string', 'max:255'],
+            'attendance.0.start_time' => ['required', 'date_format:H:i'],
+            'attendance.0.end_time'   => ['required', 'date_format:H:i', 'after:attendance.0.start_time'],
+
+            'attendance.1.start_time' => ['nullable', 'date_format:H:i'],
+            'attendance.1.end_time'   => [
+                'nullable', 
+                'required_with:attendance.1.start_time', 
+                'date_format:H:i', 
+                'after:attendance.1.start_time',
+                'before:attendance.0.end_time'
+            ],
+
+            'attendance.2.start_time' => ['nullable', 'date_format:H:i'],
+            'attendance.2.end_time'   => [
+                'nullable', 
+                'required_with:attendance.2.start_time', 
+                'date_format:H:i', 
+                'after:attendance.2.start_time',
+                'before:attendance.0.end_time'
+            ],
+
+            'remarks' => ['required', 'string', 'max:255'],
         ];
     }
 

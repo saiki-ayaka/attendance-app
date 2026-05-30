@@ -161,54 +161,58 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        if ($id === 'new') {
+        $date = request('date');
+        $attendance = ($id !== 'new') 
+            ? Attendance::with('restTimes', 'user', 'stampCorrectionRequest')->find($id) 
+            : null;
+
+        if (!$attendance) {
             $attendance = (object)[
-                'date' => request('date'),
+                'id' => null,
+                'date' => $date,
                 'start_time' => null,
                 'end_time' => null,
-                'status' => null,
-                'work_status' => null,
-                'restTimes' => collect([]),
                 'user' => \Illuminate\Support\Facades\Auth::user(),
+                'restTimes' => collect([]),
                 'stampCorrectionRequest' => null,
+                'exists' => false,
             ];
         } else {
-            $attendance = Attendance::with('restTimes', 'user', 'stampCorrectionRequest')->findOrFail($id);
-            if (!isset ($attendance->stampCorrectionRequest)) {
+            if (!isset($attendance->stampCorrectionRequest)) {
                 $attendance->stampCorrectionRequest = null;
             }
         }
+
+
         return view('attendance.show', compact('attendance'));
     }
 
     public function update(StoreStampCorrectionRequest $request, $id)
     {
-        $request->validate([
-            'end_time' => 'after:start_time',
-            'remarks'  => 'required',
-        ]);
-        $startDate = $request->date . ' ' . $request->start_time . ':00';
-        $endDate = $request->date . ' ' . $request->end_time . ':00';
-        $restData = [
-            'rest1' => [
-                'start_time' => $request->attendance[1]['start_time'] ? $request->date . ' ' . $request->attendance[1]['start_time'] . ':00' : null,
-                'end_time'   => $request->attendance[1]['end_time']   ? $request->date . ' ' . $request->attendance[1]['end_time'] . ':00'   : null,
-            ],
-            'rest2' => [
-                'start_time' => $request->attendance[2]['start_time'] ? $request->date . ' ' . $request->attendance[2]['start_time'] . ':00' : null,
-                'end_time'   => $request->attendance[2]['end_time']   ? $request->date . ' ' . $request->attendance[2]['end_time'] . ':00'   : null,
-            ],
-        ];
+        $restData = [];
+    
+        for ($i = 1; $i <= 2; $i++) {
+            $start = $request->input("attendance.$i.start_time");
+            $end = $request->input("attendance.$i.end_time");
+        
+            if ($start && $end) {
+                $restData["rest$i"] = [
+                    'start_time' => $request->date . ' ' . $start . ':00',
+                    'end_time'   => $request->date . ' ' . $end . ':00',
+                ];
+            }
+        }
+
         StampCorrectionRequest::updateOrCreate(
             ['attendance_id' => $id],
             [
-                'user_id'       => Auth::id(),
-                'date'          => $request->date,
-                'start_time'    => $startDate,
-                'end_time'      => $endDate,
-                'remarks'       => $request->remarks,
-                'rest_data'     => json_encode($restData),
-                'status'        => 0,
+                'user_id'    => Auth::id(),
+                'date'       => $request->date,
+                'start_time' => $request->date . ' ' . $request->input('attendance.0.start_time') . ':00',
+                'end_time'   => $request->date . ' ' . $request->input('attendance.0.end_time') . ':00',
+                'remarks'    => $request->remarks,
+                'rest_data'  => json_encode($restData),
+                'status'     => 0,
             ]
         );
         return redirect('/attendance/list')->with('message', '修正申請を送信しました');
@@ -216,13 +220,13 @@ class AttendanceController extends Controller
 
     public function store(StoreStampCorrectionRequest $request)
     {
-        $request->validate([
-            'start_time' => 'required',
-            'end_time'   => 'required|after:start_time',
-            'remarks'    => 'required',
-        ]);
-        $startDate = $request->date . ' ' . $request->start_time . ':00';
-        $endDate = $request->date . ' ' . $request->end_time . ':00';
+
+        $start = $request->input('attendance.0.start_time');
+        $end = $request->input('attendance.0.end_time');
+        
+        $startDate = $request->date . ' ' . $start . ':00';
+        $endDate = $request->date . ' ' . $end . ':00';
+        
         $attendance = Attendance::create([
             'user_id'    => Auth::id(),
             'date'       => $request->date,
@@ -230,6 +234,7 @@ class AttendanceController extends Controller
             'end_time'   => $endDate,
             'work_status'     => 3,
         ]);
+
         StampCorrectionRequest::create([
             'user_id'       => Auth::id(),
             'attendance_id' => $attendance->id,
@@ -239,6 +244,7 @@ class AttendanceController extends Controller
             'end_time'      => $endDate,
             'remarks'       => $request->remarks,
         ]);
+
         if ($request->has('attendance')) {
             foreach ($request->attendance as $key => $rest) {
                 if ($key >= 1 && !empty($rest['start_time']) && !empty($rest['end_time'])) {
@@ -251,5 +257,35 @@ class AttendanceController extends Controller
             }
         }
         return redirect('/attendance/list')->with('message', '勤怠を新規登録しました');
+    }
+
+    public function applyRequest(StoreStampCorrectionRequest $request, $id)
+    {
+        $attendanceInputs = $request->input('attendance');
+        $restData = [
+            'rest1' => [
+                'start_time' => $attendanceInputs[1]['start_time'] ?? null,
+                'end_time'   => $attendanceInputs[1]['end_time'] ?? null,
+            ],
+            'rest2' => [
+                'start_time' => $attendanceInputs[2]['start_time'] ?? null,
+                'end_time'   => $attendanceInputs[2]['end_time'] ?? null,
+            ],
+        ];
+
+        \App\Models\StampCorrectionRequest::updateOrCreate(
+            ['attendance_id' => $id],
+            [
+                'user_id'    => Auth::id(),
+                'date'       => $request->date,
+                'start_time' => $request->date . ' ' . $attendanceInputs[0]['start_time'] . ':00',
+                'end_time'   => $request->date . ' ' . $attendanceInputs[0]['end_time'] . ':00',
+                'remarks'    => $request->remarks,
+                'rest_data'  => json_encode($restData),
+            'status'     => 0,
+            ]
+        );
+
+        return redirect('/attendance/list')->with('message', '修正申請を送信しました');
     }
 }

@@ -52,12 +52,15 @@ class AttendanceController extends Controller
         if ($id == 0) {
             $date = $request->query('date') ?? date('Y-m-d');
             $userId = $request->query('user_id');
+        
             $attendance = new Attendance();
             $attendance->date = $date;
             $attendance->user_id = $userId;
             $attendance->user = User::findOrFail($userId);
+            $attendance->setRelation('restTimes', collect([]));
+            $attendance->setRelation('stampCorrectionRequest', null);
         } else {
-            $attendance = Attendance::with(['user', 'restTimes'])->findOrFail($id);
+            $attendance = Attendance::with(['user', 'restTimes', 'stampCorrectionRequest'])->findOrFail($id);
         }
         $target = $attendance;
         return view('admin.attendance.show', compact('attendance', 'target'));
@@ -210,17 +213,23 @@ class AttendanceController extends Controller
     {
         $req = \App\Models\StampCorrectionRequest::with(['user', 'attendance'])->findOrFail($id);
         $attendance = $req->attendance;
-        if (!$attendance) {
-            abort(404);
-        }
+        if (!$attendance) abort(404);
+
+        $rawData = json_decode($req->rest_data, true) ?? [];
+        $restData = [
+            'rest1' => $rawData[0] ?? null,
+            'rest2' => $rawData[1] ?? null,
+        ];
+
         $isApprovalMode = true;
-        return view('admin.request.approve', compact('req', 'attendance', 'isApprovalMode'));
+        return view('admin.request.approve', compact('req', 'attendance', 'isApprovalMode', 'restData'));
     }
 
     public function updateRequest(Request $request, $id)
     {
         $req = \App\Models\StampCorrectionRequest::findOrFail($id);
         $attendance = $req->attendance;
+
         \DB::transaction(function () use ($req, $attendance) {
             $attendance->update([
                 'start_time' => $req->start_time,
@@ -229,12 +238,12 @@ class AttendanceController extends Controller
             \App\Models\RestTime::where('attendance_id', $attendance->id)->delete();
             $restData = json_decode($req->rest_data, true);
             if ($restData) {
-                foreach ($restData as $rest) {
-                    if (!empty($rest['start_time']) && !empty($rest['end_time'])) {
+                foreach ($restData as $restItem) {
+                    if (is_array($restItem) && !empty($restItem['start_time']) && !empty($restItem['end_time'])) {
                         \App\Models\RestTime::create([
                             'attendance_id' => $attendance->id,
-                            'start_time'    => $rest['start_time'],
-                            'end_time'      => $rest['end_time'],
+                            'start_time'    => $restItem['start_time'],
+                            'end_time'      => $restItem['end_time'],
                         ]);
                     }
                 }

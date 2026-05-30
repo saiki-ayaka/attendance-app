@@ -1,11 +1,12 @@
 body {
     background-color: #f7f7f7;
 }
+
 .attendance-detail__content {
     max-width: 850px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    margin: 40px auto;
 }
+
 .attendance-detail__title {
     font-size: 26px;
     font-weight: bold;
@@ -13,76 +14,80 @@ body {
     border-left: 6px solid #000;
     padding-left: 15px;
 }
+
 .attendance-detail__card {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-    padding: 20px 0;
+    padding: 10px 0;
 }
-.detail-table {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
+
 .detail-table__row {
     display: flex;
     align-items: center;
     border-bottom: 2px solid #f7f7f7;
     padding: 25px 0;
 }
-.detail-table__row:last-child {
-    border-bottom: none;
-}
+
 .detail-table__header {
-    width: 200px;
+    width: 250px;
     padding-left: 60px;
     color: #808080;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.1em;
+    flex-shrink: 0;
 }
+
 .detail-table__item {
     flex: 1;
-    padding-left: 100px;
-    color: #000;
+    display: flex;
+    align-items: center;
     font-weight: bold;
     font-size: 15px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
+    color: #000;
 }
+
+.text-block {
+    margin-right: 40px;
+}
+
+.time-block {
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.separator {
+    margin: 0 40px;
+    color: #000;
+}
+
 .form__button-area {
     margin-top: 40px;
     display: flex;
     justify-content: flex-end;
 }
-.button-submit-large,
-.button-approved {
+
+.button-submit-large {
     width: 110px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #000;
+    color: #fff;
     border: none;
     border-radius: 4px;
     font-weight: bold;
-    font-size: 16px;
     cursor: pointer;
-    margin: 0;
-    letter-spacing: 0.2em;
 }
-.button-submit-large {
-    background-color: #000;
-    color: #fff;
-}
+
 .button-approved {
+    width: 110px;
+    height: 40px;
     background-color: #696969;
     color: #fff;
+    border: none;
+    border-radius: 4px;
     cursor: not-allowed;
-}
-.date-gap {
-    margin-left: 180px;
-}
-.time-separator-wide {
-    padding: 0 80px;
-    /* ここで調整 */
-    font-weight: bold;
 }

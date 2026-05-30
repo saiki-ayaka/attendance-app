@@ -38,7 +38,7 @@
                         <td class="attendance-table__item">{{ $attend->total_rest }}</td>
                         <td class="attendance-table__item">{{ $attend->total_work }}</td>
                         <td class="attendance-table__item">
-                            <a class="detail-link" href="{{ route('attendance.show', ['id' => $attend->id ?? 'new', 'date' => $attend->raw_date]) }}">詳細</a>
+                            <a class="detail-link" href="{{ route('attendance.show', ['id' => $attend->id ?? 'new']) }}?date={{ $attend->raw_date }}">詳細</a>
                         </td>
                     </tr>
                 @endforeach

@@ -36,8 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->name('attendance.list');
     Route::get('/attendance/{id?}', [AttendanceController::class, 'show'])
     ->name('attendance.show');
-    Route::put('/attendance/update/{id}', [AttendanceController::class, 'update'])
-    ->name('attendance.update');
+    Route::put('/attendance/apply/{id}', [AttendanceController::class, 'applyRequest'])->name('attendance.apply');
     Route::post('/attendance/store', [AttendanceController::class, 'store'])
     ->name('attendance.store');
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])->name('stamp_correction.index');
@@ -46,23 +45,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('attendance.list');
-        Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])
-        ->name('attendance.show')
-        ->where('id', '[0-9]+');
+        Route::get('/attendance/detail/{id}', [AdminAttendanceController::class, 'show'])
+            ->name('attendance.show')
+            ->where('id', '[0-9]+');
         Route::patch('/attendance/update/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
         Route::post('/attendance/store', [AdminAttendanceController::class, 'store'])->name('attendance.store');
-    
-        // スタッフ関連
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.list');
         Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendance'])->name('staff.attendance');
         Route::get('/staff/export/{id}', [AdminAttendanceController::class, 'export'])->name('staff.export');
-    
-        // 申請関連（承認・更新処理）
         Route::get('/stamp_correction_request/list', [AdminAttendanceController::class, 'requestList'])->name('request.list');
-    
-        // 承認画面・更新処理用
-        Route::get('/stamp_correction_request/approve/{id}', [AdminAttendanceController::class, 'approveRequest'])->name('attendance.approve.show');
+        Route::get('/stamp_correction_request/approve/{id}', [AdminAttendanceController::class, 'approveRequest'])->name('request.approve');
         Route::patch('/stamp_correction_request/approve/{id}', [AdminAttendanceController::class, 'updateRequest'])->name('request.update');
-        Route::post('/stamp_correction_request/approve/{id}', [AdminAttendanceController::class, 'updateRequest'])->name('attendance.approve');
     });
 });
