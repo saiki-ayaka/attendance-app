@@ -54,8 +54,7 @@ composer install
 cp .env.example .env
 ```
 
-4. .env ファイルの「メール送信設定」を以下のように更新してください。
-   MailHog は認証不要で動作するため、MAIL_USERNAME や PASSWORD はそのままで問題ありません。
+4. .env ファイルの「メール送信設定」欄が MAIL_HOST=mailhog 等になっていることを確認してください。（もし古い設定であれば、以下の内容に更新してください）
 
 ```text
 MAIL_MAILER=smtp
